@@ -31,7 +31,7 @@ public class Movement : MonoBehaviour
     }
     private void Jump() 
     {
-        body.AddForce(new Vector2(0f, 5f), ForceMode2D.Impulse);
+        body.AddForce(new Vector2(0f, 10f), ForceMode2D.Impulse);
         Grounded = false;
     }
     private void OnCollisionEnter2D(Collision2D collision)
