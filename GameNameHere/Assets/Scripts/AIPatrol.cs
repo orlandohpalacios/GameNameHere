@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,13 @@ public class AIPatrol : MonoBehaviour
     public LayerMask groundLayer;
     public Transform groundCheck;
     public Collider2D Bodycollider;
+
+    public Transform Player, shootPos;
+    public float Range,TimeBTWShots;
+    public GameObject bullet;
+
+
+    private float distToPlayer;
     void Start()
     {
         mustPatrol = true;
@@ -26,7 +34,28 @@ public class AIPatrol : MonoBehaviour
         {
             Patrol();
         }
+        //calculate distance of player
+        distToPlayer = Vector2.Distance(transform.position, Player.transform.position);
+
+        if ( distToPlayer <= Range)
+        {
+            if (Player.position.x > transform.position.x && transform.localScale.x < 0 ||
+               Player.position.x < transform.position.x && transform.localScale.x > 0)
+            {
+                Flip();
+            }
+            else 
+            {
+                mustPatrol = true;
+            }
+
+            mustPatrol = false;
+            rb.velocity = Vector2.zero;
+            StartCoroutine(Shoot());
+        }
+
     }
+
     private void FixedUpdate()
     {
         if (mustPatrol) { 
@@ -54,5 +83,12 @@ public class AIPatrol : MonoBehaviour
         //Start AI
         mustPatrol = true;
     }
-   
+    IEnumerator Shoot()
+    {
+        //Shoot
+        yield return new WaitForSeconds(TimeBTWShots);
+        GameObject newBullet = Instantiate(bullet,shootPos.position,Quaternion.identity);
+
+
+    }
 }

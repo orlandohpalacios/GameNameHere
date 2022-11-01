@@ -14,6 +14,7 @@ public class Movement : MonoBehaviour
     private float dashingPower = 30f;
     private float dashingTime = 0.2f;
     private float dashingCooldown = 1f;
+    private bool FacingRight = true;//determine whether to flip the character or not.
 
     private void Awake()
     {
@@ -26,6 +27,14 @@ public class Movement : MonoBehaviour
 
         if (isDashing) return;
         body.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, body.velocity.y);
+        if (body.velocity.x > 0&&FacingRight) 
+        {
+            Flip();
+        }
+        if (body.velocity.x <0&&!FacingRight)
+        {
+            Flip();
+        }
 
         if (Input.GetKey(KeyCode.UpArrow)&&Grounded) 
         {
@@ -40,7 +49,7 @@ public class Movement : MonoBehaviour
     {
         if (isDashing) return;
 
-        body.AddForce(new Vector2(0f, 10f), ForceMode2D.Impulse);
+        body.AddForce(new Vector2(0f, 8f), ForceMode2D.Impulse);
         Grounded = false;
         
     }
@@ -64,19 +73,34 @@ public class Movement : MonoBehaviour
         }
 
     }
+    private void Flip() 
+    {
+        FacingRight = !FacingRight;
+        transform.Rotate(0f, 180f, 0f);
+    }
     private IEnumerator Dash() 
     {
-        Debug.Log("Hey I dashed");
+        //Debug.Log("Hey I dashed");
+
         CanDash = false;
+        
         isDashing = true;
+        
         float orginalGravity = body.gravityScale;
+        
         body.gravityScale = 0;
+        
         body.velocity = new Vector2(Input.GetAxis("Horizontal") * dashingPower, 0f);
+        
         yield return new WaitForSeconds(dashingTime);
+        
         body.gravityScale = orginalGravity;
+        
         isDashing = false;
+        
         yield return new WaitForSeconds(dashingCooldown);
+        
         CanDash = true;
-        Debug.Log("end of cycle");
+        
     }
 }

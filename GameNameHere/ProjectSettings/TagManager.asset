@@ -51,3 +51,6 @@ TagManager:
   - name: Game objects
     uniqueID: 1640622439
     locked: 0
+  - name: Eyes
+    uniqueID: 1561891423
+    locked: 0
