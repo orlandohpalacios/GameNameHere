@@ -9,7 +9,7 @@ public class AIPatrol : MonoBehaviour
 
     [HideInInspector]
     public bool mustPatrol;
-    private bool mustFlip;
+    private bool mustFlip, canShoot;
 
     public Rigidbody2D rb;
     public LayerMask groundLayer;
@@ -17,7 +17,7 @@ public class AIPatrol : MonoBehaviour
     public Collider2D Bodycollider;
 
     public Transform Player, shootPos;
-    public float Range,TimeBTWShots;
+    public float Range,TimeBTWShots, shootSpeed;
     public GameObject bullet;
 
 
@@ -25,6 +25,7 @@ public class AIPatrol : MonoBehaviour
     void Start()
     {
         mustPatrol = true;
+        canShoot = true;
     }
 
     // Update is called once per frame
@@ -44,16 +45,16 @@ public class AIPatrol : MonoBehaviour
             {
                 Flip();
             }
-            else 
-            {
-                mustPatrol = true;
-            }
+        
 
             mustPatrol = false;
-            rb.velocity = Vector2.zero;
-            StartCoroutine(Shoot());
+            rb.velocity = Vector2.zero; 
+            if(canShoot) StartCoroutine(Shoot());
         }
-
+        else
+        {
+            mustPatrol = true;
+        }
     }
 
     private void FixedUpdate()
@@ -86,9 +87,10 @@ public class AIPatrol : MonoBehaviour
     IEnumerator Shoot()
     {
         //Shoot
+        canShoot = false;
         yield return new WaitForSeconds(TimeBTWShots);
         GameObject newBullet = Instantiate(bullet,shootPos.position,Quaternion.identity);
-
-
+        newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * walkSpeed*Time.fixedDeltaTime,0);
+        canShoot = true;
     }
 }

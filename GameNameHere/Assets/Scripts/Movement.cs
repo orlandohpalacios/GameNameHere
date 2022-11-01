@@ -49,7 +49,7 @@ public class Movement : MonoBehaviour
     {
         if (isDashing) return;
 
-        body.AddForce(new Vector2(0f, 8f), ForceMode2D.Impulse);
+        body.AddForce(new Vector2(0f, 9f), ForceMode2D.Impulse);
         Grounded = false;
         
     }
