@@ -89,11 +89,17 @@ public class Movement : MonoBehaviour
         float orginalGravity = body.gravityScale;
         
         body.gravityScale = 0;
+
+        Physics2D.IgnoreLayerCollision(8, 9, true);
+        Physics2D.IgnoreLayerCollision(10, 11, true);
+
         
         body.velocity = new Vector2(Input.GetAxis("Horizontal") * dashingPower, 0f);
         
         yield return new WaitForSeconds(dashingTime);
-        
+
+        Physics2D.IgnoreLayerCollision(8, 9, false);
+        Physics2D.IgnoreLayerCollision(10, 11, false);
         body.gravityScale = orginalGravity;
         
         isDashing = false;

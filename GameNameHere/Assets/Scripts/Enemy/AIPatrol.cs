@@ -18,8 +18,9 @@ public class AIPatrol : MonoBehaviour
 
     public Transform Player, shootPos;
     public float Range,TimeBTWShots, shootSpeed;
-    public GameObject bullet;
+    private GameObject bullet;
     private float distToPlayer;
+
 
     void Start()
     {
@@ -38,7 +39,7 @@ public class AIPatrol : MonoBehaviour
         distToPlayer = Vector2.Distance(transform.position, Player.transform.position);
         if ( distToPlayer <= Range)
         {
-            if (Player.position.x > transform.position.x && transform.localScale.x < 0 ||
+            if (Player.position.x > transform.position.x && transform.localScale.x < 0  ||
                Player.position.x < transform.position.x && transform.localScale.x > 0)
             {
                 Flip();

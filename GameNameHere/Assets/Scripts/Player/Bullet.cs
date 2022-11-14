@@ -17,12 +17,12 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D hitInfo)
     {
         
-            if (hitInfo.tag == "enemy")
+            if (hitInfo.tag == "Enemy")
             {
             hitInfo.GetComponent<Health>().TakeDamage(damage);
             }
 
-            Debug.Log(hitInfo.name);
+            //ebug.Log(hitInfo.name);
             Destroy(gameObject);
         
     }
