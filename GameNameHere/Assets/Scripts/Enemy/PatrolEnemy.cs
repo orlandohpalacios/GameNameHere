@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PatrolEnemy : MonoBehaviour
 {
-    [Header("Patrol")]
+    [Header("walk Speed")]
     public float walkSpeed;
 
 
     [Header("Enemy")]
-    [SerializeField] private Rigidbody2D enemy;
+    [SerializeField] public Rigidbody2D enemy;
 
     [HideInInspector]
     public bool mustPatrol;
@@ -26,39 +26,45 @@ public class PatrolEnemy : MonoBehaviour
     private void Start()
     {
         mustPatrol = true;
-        coolDownHit = false; ;
+        coolDownHit = false; 
     }
 
     void Update()
     {
-        if (mustPatrol&& coolDownHit==false)
+        if (mustPatrol)
         {
             Patrol();
         }
         distToPlayer = Vector2.Distance(transform.position, Player.transform.position);
-        if (distToPlayer <= Range && coolDownHit == false)
+       
+
+        if (distToPlayer <= Range)
         {
-            if (Player.position.x > transform.position.x && transform.localScale.x < 0||
+            if (Player.position.x > transform.position.x && transform.localScale.x < 0 ||
                Player.position.x < transform.position.x && transform.localScale.x > 0)
             {
                 Flip();
             }
 
+            mustPatrol = false;
+            Debug.Log(mustPatrol+":MustPatrol is this");
+            enemy.velocity = Vector2.zero;
+
+        }
+        else 
+        {
+            mustPatrol = true;
+            enemy.velocity = new Vector2(walkSpeed * Time.fixedDeltaTime, enemy.velocity.y); 
         }
     }
     private void FixedUpdate()
     {
         if (mustPatrol)
-        {
-            //if touching ground flip, ! is do not flip
-     
+        {     
             mustFlip = !Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
         }
     }
-    /*private void OnDisable()
-    {
-        Flip();
-    }*/
+  
     void Patrol()
     {
 

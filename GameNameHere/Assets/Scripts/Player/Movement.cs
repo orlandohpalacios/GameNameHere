@@ -59,10 +59,16 @@ public class Movement : MonoBehaviour
         if (collision.gameObject.tag == "Ground") 
         {
             Grounded = true;
-        }if (collision.gameObject.tag == "Platform") 
+        }
+        else if (collision.gameObject.tag == "Platform") 
         {
             Grounded = true;
             body.transform.parent = collision.gameObject.transform;
+        }
+        if (collision.otherCollider.tag == "PowerUp") 
+        {
+            Destroy(collision.gameObject);
+
         }
     }
     private void OnCollisionExit2D(Collision2D collision)

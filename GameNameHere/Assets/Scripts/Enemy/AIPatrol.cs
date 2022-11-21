@@ -88,7 +88,7 @@ public class AIPatrol : MonoBehaviour
         canShoot = false;
         yield return new WaitForSeconds(TimeBTWShots);
         GameObject newBullet = Instantiate(bullet,shootPos.position,Quaternion.identity);
-        //how do i make enemy make player take damage
+       
         newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * walkSpeed*Time.fixedDeltaTime,0);
         canShoot = true;
     }

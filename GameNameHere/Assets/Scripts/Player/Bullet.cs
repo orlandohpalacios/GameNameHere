@@ -18,12 +18,10 @@ public class Bullet : MonoBehaviour
     {
         
             if (hitInfo.tag == "Enemy")
-            {
+        {
             hitInfo.GetComponent<Health>().TakeDamage(damage);
-            }
-
-            //ebug.Log(hitInfo.name);
-            Destroy(gameObject);
+        }
+        Destroy(gameObject);
         
     }
     IEnumerator CountDownHelper()
