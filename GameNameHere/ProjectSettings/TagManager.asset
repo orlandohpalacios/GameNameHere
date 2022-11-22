@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Enemy Bullet
   - PlayerBullet
+  - PowerUps
   layers:
   - Default
   - TransparentFX

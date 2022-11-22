@@ -5,10 +5,12 @@ using UnityEngine;
 public class Checkboss : MonoBehaviour
 {
     [SerializeField]BoxCollider2D wall;
+    [SerializeField]BoxCollider2D wall2;
     [SerializeField]Rigidbody2D player;
     [SerializeField] AudioSource bossAudio;
-    [SerializeField] GameObject previousAudio;
+    [SerializeField] AudioSource prevAudio;
     [SerializeField] GameObject bossCurrent;
+    int updatestop=  0;
     Boss enemyCheck;
     private void Start()
     {
@@ -16,9 +18,10 @@ public class Checkboss : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (!enemyCheck.bossAlive) 
+        if (!enemyCheck.bossAlive && updatestop == 0) 
         {
-
+            //to stop from repeated use, using a int to not let repeat
+            updatestop = 1;
             StartCoroutine(BossDefeated());
         } 
     }
@@ -39,24 +42,31 @@ public class Checkboss : MonoBehaviour
 
     IEnumerator BossEntrance() 
     {
-        previousAudio.GetComponent<AudioSource>().Stop();
+        //switch Audio
+        prevAudio.Stop();
+        prevAudio.loop = false;
         bossAudio.Play();
         bossAudio.loop = true;
+        //Wall creation and Movement disabled
         player.GetComponent<Movement>().enabled = false;
-        player.position = new Vector2(player.position.x + 1, player.position.y);
-        //wait until wall closed, than allow movement
+        player.velocity = new Vector2(0f,0f);
+        player.position = new Vector2(player.position.x + 3, player.position.y);
         yield return new WaitForSeconds(1);
         wall.isTrigger = false;
+        wall2.isTrigger = false;
         player.GetComponent<Movement>().enabled = true;
     }
     IEnumerator BossDefeated()
     {
+       
         bossAudio.Stop();
-        previousAudio.GetComponent<AudioSource>().Play();
-        previousAudio.GetComponent<AudioSource>().loop = true;
+        prevAudio.Play();
+        prevAudio.loop = true;
         //wait until wall closed, than allow movement
+        player.GetComponent<Movement>().enabled = false;
         yield return new WaitForSeconds(1);
         wall.isTrigger = true;
+        wall2.isTrigger = true;
         player.GetComponent<Movement>().enabled = true;
     }
 }

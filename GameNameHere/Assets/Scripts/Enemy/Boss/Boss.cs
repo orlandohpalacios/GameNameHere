@@ -50,7 +50,7 @@ public class Boss : MonoBehaviour
             PowerUpUsed = true;
             StartCoroutine(Powerup());
         }
-        if (EnemyHealth.currentHealth == 10f) 
+        if (EnemyHealth.currentHealth == 10f||EnemyHealth.currentHealth ==0) 
         {
             bossAlive = false;
         }
