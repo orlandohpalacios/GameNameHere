@@ -25,8 +25,10 @@ public class PatrolEnemy : MonoBehaviour
 
     private void Start()
     {
+        mustFlip = false;
         mustPatrol = true;
         coolDownHit = false; 
+
     }
 
     void Update()
@@ -35,8 +37,8 @@ public class PatrolEnemy : MonoBehaviour
         {
             Patrol();
         }
+
         distToPlayer = Vector2.Distance(transform.position, Player.transform.position);
-       
 
         if (distToPlayer <= Range)
         {
@@ -46,10 +48,11 @@ public class PatrolEnemy : MonoBehaviour
                 Flip();
             }
 
-            mustPatrol = false;
-            Debug.Log(mustPatrol+":MustPatrol is this");
-            enemy.velocity = Vector2.zero;
-
+            if (enemy.GetComponent<RangedEnemy>())
+            {
+                mustPatrol = false;
+                enemy.velocity = Vector2.zero;
+            }
         }
         else 
         {

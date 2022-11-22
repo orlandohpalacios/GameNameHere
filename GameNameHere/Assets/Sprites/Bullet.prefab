@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7697080087333652778}
   - component: {fileID: 6973855998693633745}
   - component: {fileID: 740696116218592074}
-  - component: {fileID: 4448046563154859223}
+  - component: {fileID: 3812985588968549442}
   m_Layer: 7
   m_Name: Bullet
   m_TagString: PlayerBullet
@@ -124,7 +124,7 @@ CircleCollider2D:
   m_Offset: {x: 0.001295138, y: 0.0023462453}
   serializedVersion: 2
   m_Radius: 0.052036576
---- !u!114 &4448046563154859223
+--- !u!114 &3812985588968549442
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,4 +139,4 @@ MonoBehaviour:
   Speed: 20
   damage: 10
   rb: {fileID: 6973855998693633745}
-  dieTime: 2
+  dieTime: 1.7

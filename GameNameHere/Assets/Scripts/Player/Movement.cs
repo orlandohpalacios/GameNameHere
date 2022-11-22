@@ -86,8 +86,6 @@ public class Movement : MonoBehaviour
     }
     private IEnumerator Dash() 
     {
-        //Debug.Log("Hey I dashed");
-
         CanDash = false;
         
         isDashing = true;

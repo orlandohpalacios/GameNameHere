@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private float startingHealth;
+    [SerializeField] public float startingHealth;
     public float currentHealth { get; private set; }
 
     [Header("iFrames")]
-    [SerializeField]private float IframesDuration;
+    [SerializeField] private float IframesDuration;
     [SerializeField] private int numberOfFlashes;
     private SpriteRenderer spriteRend;
-    public AudioSource audioSourceHurt;
-    public AudioSource audioSourceDead;
+    private AudioSource audioSourceHurt;
+    private AudioSource audioSourceDead;
 
     private void Awake()
     {
@@ -24,6 +24,10 @@ public class Health : MonoBehaviour
         spriteRend = GetComponent<SpriteRenderer>();
         audioSourceHurt = GetComponent<AudioSource>();
         audioSourceDead = GetComponent<AudioSource>();
+    }
+    public void Heal() 
+    {
+        currentHealth = currentHealth + 1;
     }
     public void TakeDamage(float _damage) 
     {
@@ -44,13 +48,24 @@ public class Health : MonoBehaviour
         }
         else{
             //Player dead
-            if(GetComponent<Movement>() !=null)
-            GetComponent<Movement>().enabled = false;
-            if (gameObject.tag.Equals("Enemy"))
+            if (gameObject.tag.Equals("Player") && currentHealth <= 0)
+            {
+                GetComponent<Movement>().enabled = false;
+                //GetComponent<BoxCollider2D>().isTrigger = true;
+                GetComponent<weapon>().enabled = false;
+                //Later implement the awasome reboot and animation for death.
+            }
+            else if (gameObject.tag.Equals("Enemy"))
             {
                 //Enemy Died
-                if (GetComponentInParent<PatrolEnemy>() != null)
-                    GetComponentInParent<PatrolEnemy>().enabled = false;
+                if (GetComponentInParent<RangedEnemy>() != null)
+                {
+                    GetComponent<PatrolEnemy>().enabled = false;
+                    GetComponent<RangedEnemy>().enabled = false;
+                    GetComponent<Health>().enabled = false;
+
+                    Destroy(gameObject);
+                }
 
                 if (GetComponent<Boss>() != null)
                 {

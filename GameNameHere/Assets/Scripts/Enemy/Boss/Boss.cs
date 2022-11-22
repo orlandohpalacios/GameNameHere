@@ -37,20 +37,26 @@ public class Boss : MonoBehaviour
         PowerUpUsed = false;
         EnemyHealth = GetComponent<Health>();
         if (upgradePoint == 0.0f)upgradePoint = Health / 2;
-        
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (EnemyHealth.currentHealth <= upgradePoint && PowerUpUsed == false)
         {
-            Debug.Log("Time FOR AN UPGRADE!!");
             PowerUpUsed = true;
-            Powerup();
-
+            StartCoroutine(Powerup());
         }
+        if (EnemyHealth.currentHealth == 10f) 
+        {
+            bossAlive = false;
+        }
+
         cooldownTimer += Time.deltaTime;
+        
         if (PlayerInSight()) 
         {
           
@@ -108,7 +114,10 @@ public class Boss : MonoBehaviour
     IEnumerator CoolDownHit() 
     {
         enemyIsPatroling.coolDownHit =true;
+        enemyIsPatroling.GetComponent<PatrolEnemy>().enabled = false;
         yield return new WaitForSeconds(3);
         enemyIsPatroling.coolDownHit = false;
+        enemyIsPatroling.GetComponent<PatrolEnemy>().enabled = true;
+
     }
 }

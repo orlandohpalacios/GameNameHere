@@ -8,7 +8,6 @@ public class Bullet : MonoBehaviour
     public int damage = 10;
     public Rigidbody2D rb;
     public float dieTime = 1.7f;
-
     void Start()
     {
         rb.velocity = transform.right * Speed;
@@ -16,13 +15,19 @@ public class Bullet : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        
-            if (hitInfo.tag == "Enemy")
+
+        if (hitInfo != null)
         {
-            hitInfo.GetComponent<Health>().TakeDamage(damage);
+            if (hitInfo.gameObject.tag == "Enemy")
+            {
+                Destroy(gameObject);
+                hitInfo.GetComponent<Health>().TakeDamage(damage);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-        Destroy(gameObject);
-        
     }
     IEnumerator CountDownHelper()
     {
