@@ -20,6 +20,7 @@ public class Boss : MonoBehaviour
     private float cooldownTimer = Mathf.Infinity;
     public bool bossAlive;
     public bool PowerUpUsed;
+    public bool coolDownHit;
 
     //animation
     //private Animator anim;
@@ -33,6 +34,7 @@ public class Boss : MonoBehaviour
     private void Awake()
     {
         enemyIsPatroling = GetComponentInParent<PatrolEnemy>();
+
         bossAlive = true;
         PowerUpUsed = false;
         EnemyHealth = GetComponent<Health>();
@@ -92,7 +94,7 @@ public class Boss : MonoBehaviour
     }
     private void DamagePlayer() 
     {
-        if (PlayerInSight()) 
+        if (PlayerInSight() && !coolDownHit ) 
         {
             //damage health and let the player recover
             playerHealth.TakeDamage(damage);
@@ -101,23 +103,23 @@ public class Boss : MonoBehaviour
     }
     private IEnumerator Powerup() 
     {
-        Physics2D.IgnoreLayerCollision(7,8, false);
-        
+        Physics2D.IgnoreLayerCollision(7,9, true);
+        enemyIsPatroling.GetComponent<PatrolEnemy>().enabled = false;
+        //eye change and boost
         yield return new WaitForSeconds(2);
         eyeOne.material.color = new Color(1, 0, 0);
         eyeTwo.material.color = new Color(1, 0, 0);
        enemyIsPatroling.walkSpeed =enemyIsPatroling.walkSpeed* 2;
         damage = damage* 2;
-        Physics2D.IgnoreLayerCollision(7, 8, true);
+        Physics2D.IgnoreLayerCollision(7, 9, false);
+        enemyIsPatroling.GetComponent<PatrolEnemy>().enabled = true;
+
 
     }
     IEnumerator CoolDownHit() 
     {
-        enemyIsPatroling.coolDownHit =true;
-        enemyIsPatroling.GetComponent<PatrolEnemy>().enabled = false;
+        coolDownHit =true;
         yield return new WaitForSeconds(3);
-        enemyIsPatroling.coolDownHit = false;
-        enemyIsPatroling.GetComponent<PatrolEnemy>().enabled = true;
-
+        coolDownHit = false;
     }
 }

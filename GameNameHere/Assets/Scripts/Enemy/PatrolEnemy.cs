@@ -13,7 +13,7 @@ public class PatrolEnemy : MonoBehaviour
 
     [HideInInspector]
     public bool mustPatrol;
-    private bool mustFlip;
+    public bool mustFlip;
 
     public Collider2D Bodycollider;
     public LayerMask groundLayer;
@@ -21,13 +21,11 @@ public class PatrolEnemy : MonoBehaviour
     private float distToPlayer;
     public float Range;
     public Transform Player;
-    public bool coolDownHit;
 
     private void Start()
     {
         mustFlip = false;
         mustPatrol = true;
-        coolDownHit = false; 
 
     }
 
@@ -38,13 +36,16 @@ public class PatrolEnemy : MonoBehaviour
             Patrol();
         }
 
-        distToPlayer = Vector2.Distance(transform.position, Player.transform.position);
+        distToPlayer = Vector2.Distance(enemy.transform.position, Player.transform.position);
+
 
         if (distToPlayer <= Range)
         {
+           
             if (Player.position.x > transform.position.x && transform.localScale.x < 0 ||
                Player.position.x < transform.position.x && transform.localScale.x > 0)
             {
+         
                 Flip();
             }
 

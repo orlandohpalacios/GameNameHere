@@ -12,6 +12,7 @@ public class Health : MonoBehaviour
     [SerializeField] private int numberOfFlashes;
     private SpriteRenderer spriteRend;
     private AudioSource audioSourceHurt;
+    //none yet
     private AudioSource audioSourceDead;
 
     private void Awake()
@@ -43,21 +44,20 @@ public class Health : MonoBehaviour
         }
         else if (currentHealth>0&&gameObject.tag.Equals("Enemy")) 
         {
-            Debug.Log(currentHealth);
-            audioSourceHurt.Play();
+           // audioSourceHurt.Play();
         }
         else{
             //Player dead
             if (gameObject.tag.Equals("Player") && currentHealth <= 0)
             {
                 GetComponent<Movement>().enabled = false;
-                //GetComponent<BoxCollider2D>().isTrigger = true;
+         
                 GetComponent<weapon>().enabled = false;
                 //Later implement the awasome reboot and animation for death.
             }
             else if (gameObject.tag.Equals("Enemy"))
             {
-                //Enemy Died
+                //Ranged Enemy Died
                 if (GetComponentInParent<RangedEnemy>() != null)
                 {
                     GetComponent<PatrolEnemy>().enabled = false;
@@ -66,7 +66,7 @@ public class Health : MonoBehaviour
 
                     Destroy(gameObject);
                 }
-
+                //Boss Enemy Died
                 if (GetComponent<Boss>() != null)
                 {
                     GetComponent<Boss>().enabled = false;
@@ -78,7 +78,8 @@ public class Health : MonoBehaviour
     private IEnumerator Invincibility() 
     {
         Physics2D.IgnoreLayerCollision(10,11,true);
-        //
+        GetComponent<weapon>().enabled = false;
+        //Stop the Player from shooting
         for (int i = 0; i < numberOfFlashes; i++)
         {
             spriteRend.color = Color.white;
@@ -87,7 +88,7 @@ public class Health : MonoBehaviour
             yield return new WaitForSeconds(IframesDuration / (numberOfFlashes*2));
 
         }
+        GetComponent<weapon>().enabled = true;
         Physics2D.IgnoreLayerCollision(10, 11, false);
-
     }
 }

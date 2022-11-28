@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class weapon : MonoBehaviour
 {
-    // Start is called before the first frame update
+
     public Transform FirePoint;
     public GameObject bulletPrefab;
 
-    // Update is called once per frame
     void Update()
     {
 

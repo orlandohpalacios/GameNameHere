@@ -8,7 +8,6 @@ public class Bullet : MonoBehaviour
     public int damage;
     public Rigidbody2D rb;
     public float dieTime = 1.7f;
-    private int powerUpCoolDown;
     void Start()
     {
         rb.velocity = transform.right * Speed;

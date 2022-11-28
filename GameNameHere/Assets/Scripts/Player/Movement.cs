@@ -27,6 +27,7 @@ public class Movement : MonoBehaviour
 
         if (isDashing) return;
         body.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, body.velocity.y);
+        //checks the position in which the player is facing
         if (body.velocity.x > 0&&FacingRight) 
         {
             Flip();
@@ -48,7 +49,6 @@ public class Movement : MonoBehaviour
     private void Jump() 
     {
         if (isDashing) return;
-
         body.AddForce(new Vector2(0f, 9f), ForceMode2D.Impulse);
         Grounded = false;
         
