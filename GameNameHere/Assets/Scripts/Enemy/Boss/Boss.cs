@@ -29,6 +29,7 @@ public class Boss : MonoBehaviour
     private Health playerHealth;
     private Health EnemyHealth;
     private PatrolEnemy enemyIsPatroling;
+    private Animator animate;
 
 
     private void Awake()
@@ -39,8 +40,8 @@ public class Boss : MonoBehaviour
         PowerUpUsed = false;
         EnemyHealth = GetComponent<Health>();
         if (upgradePoint == 0.0f)upgradePoint = Health / 2;
-
-
+        animate = GetComponent<Animator>();
+        
     }
 
     // Update is called once per frame
@@ -103,13 +104,15 @@ public class Boss : MonoBehaviour
     }
     private IEnumerator Powerup() 
     {
+        
         Physics2D.IgnoreLayerCollision(7,9, true);
         enemyIsPatroling.GetComponent<PatrolEnemy>().enabled = false;
-        //eye change and boost
-        yield return new WaitForSeconds(2);
         eyeOne.material.color = new Color(1, 0, 0);
         eyeTwo.material.color = new Color(1, 0, 0);
-       enemyIsPatroling.walkSpeed =enemyIsPatroling.walkSpeed* 2;
+        //eye change and boost
+        yield return new WaitForSeconds(1);
+        animate.speed = 2;
+       enemyIsPatroling.walkSpeed = enemyIsPatroling.walkSpeed* 2;
         damage = damage* 2;
         Physics2D.IgnoreLayerCollision(7, 9, false);
         enemyIsPatroling.GetComponent<PatrolEnemy>().enabled = true;
