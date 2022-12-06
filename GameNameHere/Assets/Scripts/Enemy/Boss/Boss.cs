@@ -22,9 +22,6 @@ public class Boss : MonoBehaviour
     public bool PowerUpUsed;
     public bool coolDownHit;
 
-    //animation
-    //private Animator anim;
-
     //Reference 
     private Health playerHealth;
     private Health EnemyHealth;
@@ -89,7 +86,7 @@ public class Boss : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
-        //creating a hitbox to check player
+        //creating a hitbox to see where the boss would hit
         Gizmos.DrawWireCube(boxCollider.bounds.center + transform.right * Range * -transform.localScale.x*colliderDistance, 
             new Vector3(boxCollider.bounds.size.x * Range, boxCollider.bounds.size.y, boxCollider.bounds.size.z));
     }
@@ -106,17 +103,15 @@ public class Boss : MonoBehaviour
     {
         
         Physics2D.IgnoreLayerCollision(7,9, true);
-        enemyIsPatroling.GetComponent<PatrolEnemy>().enabled = false;
         eyeOne.material.color = new Color(1, 0, 0);
         eyeTwo.material.color = new Color(1, 0, 0);
         //eye change and boost
         yield return new WaitForSeconds(1);
+        //all stats up or doubled
         animate.speed = 2;
        enemyIsPatroling.walkSpeed = enemyIsPatroling.walkSpeed* 2;
         damage = damage* 2;
         Physics2D.IgnoreLayerCollision(7, 9, false);
-        enemyIsPatroling.GetComponent<PatrolEnemy>().enabled = true;
-
 
     }
     IEnumerator CoolDownHit() 
